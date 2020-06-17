@@ -14,14 +14,14 @@ public class RestAssuredTest {
     @param JSON:Request Header
      */
 
-    String uid = "";
     public static String token = "";
+    String uid = "";
     String JSON = "application/json";
 
     //Before method
     @BeforeMethod
     public void get() {
-        token = "Bearer BQDLqpsVAzQOIz1nVTgNMbHW7Lmd7lBnevmLoO9Gy-DFcVKjQ7F6ldvXTb3g5CtLYGwCsgwlbVYkyymT4lndeNax9VdbIxv3fuZaYbOcNqNiDGGoGQt_XKmXT7ill8a1ovHta9eAz83SV1aMN7Rw6P517wJ4esQTfbKKc8eso_hbLLXnvZTFkjEhzlQXO_Y8ERurYehjXYJ_bMx9FqFO5w_BNOG11MQ8Brcu0dBqT71taq0AtBci7Zgqtj7-9kZ_tfqZ0UgX3zOLqXEn4eIvbjU-df_S55iU";
+        token = "Bearer BQBm1g5bLdQxRRhKbC9jm-LcLlXangi3yYlfS-pufEwbJ7ThzVUOdUnoDZ0sOfLJCX26_tPQRriO_w1mj7BmZn-Jd488PsRJLs8MptFDRoe3HyDAv1diQohgWBeqoDlijTOKTFZfmmHDo7Kwcuv5a8Wc0qjxs-FXrJyJCMrC_oNEQGyFowxjcrbbl9YgadzyE4QQmwlKmE0Lw7XBe0LfudLMUo8s3tlIiwvKVchKDVCqak8LbJnkmwoYp5gbv1lp8do_Hu6jMIRzluBlSM601W8gN9e3zhxx";
     }
 
     //to get user id
@@ -33,8 +33,8 @@ public class RestAssuredTest {
                 .header("Authorization", token)
                 .when()
                 .get("https://api.spotify.com/v1/me");
-        uid = response.path("id");
-        response.then().assertThat().statusCode(200);
+        uid = response.path("id"); //get user id
+        response.then().assertThat().statusCode(200); //to check for response code
         System.out.println(uid);
     }
 
@@ -47,8 +47,8 @@ public class RestAssuredTest {
                 .header("Authorization", token)
                 .when()
                 .get("https://api.spotify.com/v1/me");
-        String name = response.path("display_name");
-        response.then().assertThat().statusCode(200);
+        String name = response.path("display_name"); //get user display name
+        response.then().assertThat().statusCode(200); //check for status code
         System.out.println(name);
     }
 
@@ -61,8 +61,8 @@ public class RestAssuredTest {
                 .header("Authorization", token)
                 .when()
                 .get("https://api.spotify.com/v1/users/" + uid + "/");
-        response.then().assertThat().statusCode(200);
-        String profile = response.getBody().asString();
+        response.then().assertThat().statusCode(200); //check for status code
+        String profile = response.getBody().asString(); //get user profile in string format
         System.out.println(profile);
     }
 
@@ -73,9 +73,9 @@ public class RestAssuredTest {
                 .accept(JSON)
                 .contentType(JSON)
                 .header("Authorization", token)
-                .body("{\"name\": \"Siddhesh1\",\"description\": \"New playlist description\",\"public\": true}")
+                .body("{\"name\": \"Siddhesh2\",\"description\": \"New playlist description\",\"public\": true}")
                 .when()
                 .post(" https://api.spotify.com/v1/users/" + uid + "/playlists");
-//        response.then().assertThat().statusCode(200);
+        response.then().assertThat().statusCode(201); //check for status code
     }
 }
