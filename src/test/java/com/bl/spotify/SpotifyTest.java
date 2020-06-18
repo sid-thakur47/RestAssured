@@ -7,22 +7,28 @@ import org.testng.annotations.Test;
 import static io.restassured.RestAssured.given;
 
 public class SpotifyTest {
+
     /*
     @param uid:ID of user
     @param TOKEN: Bearer token
-    @param JSON:Request Header
+    @param JSON:Request
+    @param playlists:to store all playlist
+    @param: trackId:to store all track ids
      */
+
     public static String token = "";
     public String playlists[];
     public int totalPlayList;
     public String trackId[];
     String uid = "";
     String JSON = "application/json";
+
     //Before method
     @BeforeMethod
     public void get() {
-        token = "Bearer BQArudaWxG-bPd8bCVEBH_HMIKmKpmjO5mgZtFpl6FGhG7GhXhs9HA22BXsBfcla42RYQsBwXfJWEQQiz7YGkJpw2V2Poryun74swRnqewzYnL29ufCDPlwHnXLQnOYHzpM9Q3v2TLY4b27qB0YRRm2yBRaUlmi-NdJMCHCpkWlc4olmd2GZVb0PC_QLG1CeA5Xr1fogS62fT0tXda9tuNlPZZCCvg0_9rv4Eue3uxGNA9saOw-JT2Wj5_LKlHi6nRBLLG9ypTUMeZmE1KPcdT2l_M6lgJtZ";
+        token = "Bearer BQBMDZfJ5Ukupc2_B4j5XscOIUqrmuTH9404qrLL8mk8G_uMIfbhYgQfEhTnhq_j8Onkr0U4ZBuC-e3IP4AGbfFEv3rx1wJa6Dt5Mw37kE_ZawQ6c1c7wGHik3mNKh-PlpyHt8K0Q52EuOa7htlSKVFCODzATQWQ4TQUX0ewIb_UPE926eUKq_d-0rAK8pe0huZ4woWFRNxgOEOnuPVissywdTMtYW3imcqtEjYr8ntYEYFDzdCjcPEVmUZQfaQPXtfPyxbJxQldHh3OMW5si9N8MydeizTA";
     }
+
     //to get user id
     @Test(priority = 1)
     public void getUser_Id() {
@@ -36,6 +42,7 @@ public class SpotifyTest {
         response.then().assertThat().statusCode(200); //to check for response code
         System.out.println(uid);
     }
+
     //to get user name
     @Test
     public void getUser_Name() {
@@ -49,6 +56,7 @@ public class SpotifyTest {
         response.then().assertThat().statusCode(200); //check for status code
         System.out.println(name);
     }
+
     //to get user profile
     @Test(priority = 2)
     public void get_UserProfile() {
@@ -61,8 +69,9 @@ public class SpotifyTest {
         response.then().assertThat().statusCode(200); //check for status code
         response.prettyPrint(); //print current user profile
     }
+
     //to create a new playlist
-    @Test(priority = 3)
+    @Test(priority = 10)
     public void create_PlayList() {
         Response response = given()
                 .accept(JSON)
@@ -76,6 +85,7 @@ public class SpotifyTest {
         response.then().assertThat().statusCode(201); //check for status code
         //response.prettyPrint();
     }
+
     //get user's playlist details
     @Test(priority = 4)
     public void getUserPlayListInfo() {
@@ -86,11 +96,9 @@ public class SpotifyTest {
                 .when()
                 .get("https://api.spotify.com/v1/users/" + uid + "/playlists");
         response.then().assertThat().statusCode(200);
-        totalPlayList = response.path("total");
         totalPlayList = response.path("total"); //get total playlist
         System.out.println("Total PlayList:" + totalPlayList);
         //response.prettyPrint();
-        response.prettyPrint(); //get playlist info
     }
 
     //get List of users PlayList
@@ -105,7 +113,6 @@ public class SpotifyTest {
         //response.prettyPrint();
         playlists = new String[totalPlayList];
         for(int i = 0; i < playlists.length; i++) {
-            playlists[i] = response.path("items[" + i + "].id");
             playlists[i] = response.path("items[" + i + "].id"); //get playlist id
         }
         for(String id : playlists) { //print play list
@@ -125,6 +132,7 @@ public class SpotifyTest {
                 .put("https://api.spotify.com/v1/playlists/" + playlists[1] + "");
         response.then().assertThat().statusCode(200);
     }
+
     //get List of items in playList
     @Test(priority = 7)
     public void getAllPlayListItem() {
@@ -137,11 +145,9 @@ public class SpotifyTest {
         int totalTracks = response.path("total");
         trackId = new String[totalTracks];
         for(int i = 0; i < trackId.length; i++) {
-            trackId[i] = response.path("items[" + i + "].track.uri");
             trackId[i] = response.path("items[" + i + "].track.uri"); //get uri of track
         }
         for(String track : trackId) {
-            System.out.println("Tracks:" + track);
             System.out.println("Tracks:" + track); //print track uri
         }
     }
