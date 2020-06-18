@@ -12,9 +12,6 @@ public class SpotifyTest {
     @param uid:ID of user
     @param TOKEN: Bearer token
     @param JSON:Request Header
-    @param plaList:to store multiple playlist
-    @param trackId:to store multiple track id
-    @param totalPlayList:total number of play list
      */
 
     public static String token = "";
