@@ -117,4 +117,17 @@ public class SpotifyTest {
             System.out.println("PlayList Id" + id);
         }
     }
+
+    //to change Playlist Name
+    @Test(priority = 6)
+    public void changeDetails() {
+        Response response = given()
+                .accept(JSON)
+                .contentType(JSON)
+                .header("Authorization", token)
+                .body("{\"name\": \"Upadted FromIntellij\",\"description\": \"New playlist description\",\"public\": true}")
+                .when()
+                .put("https://api.spotify.com/v1/playlists/" + playlists[1] + "");
+        response.then().assertThat().statusCode(200);
+    }
 }
