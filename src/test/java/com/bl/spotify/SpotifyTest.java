@@ -15,16 +15,16 @@ public class SpotifyTest {
      */
 
     public static String token = "";
-    public String playlists[];
-    public int totalPlayList;
-    public String trackId[];
     String uid = "";
+    String playlist_Id = "";
     String JSON = "application/json";
+    int totalPlayList[];
+    private int[] playlists;
 
     //Before method
     @BeforeMethod
     public void get() {
-        token = "Bearer BQArudaWxG-bPd8bCVEBH_HMIKmKpmjO5mgZtFpl6FGhG7GhXhs9HA22BXsBfcla42RYQsBwXfJWEQQiz7YGkJpw2V2Poryun74swRnqewzYnL29ufCDPlwHnXLQnOYHzpM9Q3v2TLY4b27qB0YRRm2yBRaUlmi-NdJMCHCpkWlc4olmd2GZVb0PC_QLG1CeA5Xr1fogS62fT0tXda9tuNlPZZCCvg0_9rv4Eue3uxGNA9saOw-JT2Wj5_LKlHi6nRBLLG9ypTUMeZmE1KPcdT2l_M6lgJtZ";
+        token = "Bearer BQAwXirLGpxfRhceoYzPwRCXkeoRPUWD1pY5jLsfzpgh5Ubd1AzElEiSqJAONff2QsQUG4KFan5vjAlkjC7XX45VRhoDzTQVbA62GJBbQvaPzcoNpLOg-Ta_k0vUYBg_1oQFvl3VhjtxQ4W2TjoEyVQNRo4fMFWa-zLgVfr30kz43HuWa8s_yN7k1cinMR7_sWma2911z-QAu1XIO64L5lllTsNG33S3jccf9li1TMMpp-9yKS8src3aHtil_umpYpo0vqanCWiLbS3melOwgz38ioSgv33j";
     }
 
     //to get user id
@@ -78,10 +78,7 @@ public class SpotifyTest {
                 .body("{\"name\": \"Siddhesh2\",\"description\": \"New playlist description\",\"public\": true}")
                 .when()
                 .post(" https://api.spotify.com/v1/users/" + uid + "/playlists");
-        String path = response.path("owner.display_name");
-        System.out.println("PlayList Name:" + path);
         response.then().assertThat().statusCode(201); //check for status code
-        //response.prettyPrint();
     }
 
     //get user's playlist details
@@ -94,27 +91,8 @@ public class SpotifyTest {
                 .when()
                 .get("https://api.spotify.com/v1/users/" + uid + "/playlists");
         response.then().assertThat().statusCode(200);
-        totalPlayList = response.path("total");
-        System.out.println("Total PlayList:" + totalPlayList);
-        //response.prettyPrint();
-    }
-
-    //get List of users PlayList
-    @Test(priority = 5)
-    public void getUserPlayList() {
-        Response response = given()
-                .accept(JSON)
-                .contentType(JSON)
-                .header("Authorization", token)
-                .when()
-                .get("https://api.spotify.com/v1/users/" + uid + "/playlists");
-        //response.prettyPrint();
-        playlists = new String[totalPlayList];
-        for(int i = 0; i < playlists.length; i++) {
-            playlists[i] = response.path("items[" + i + "].id");
-        }
-        for(String id : playlists) {
-            System.out.println("PlayList Id" + id);
-        }
+        playlist_Id = response.path("uri");
+        System.out.println("play;lisyt" + playlist_Id);
+        response.prettyPrint();
     }
 }
