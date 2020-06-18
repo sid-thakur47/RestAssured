@@ -94,9 +94,9 @@ public class SpotifyTest {
                 .when()
                 .get("https://api.spotify.com/v1/users/" + uid + "/playlists");
         response.then().assertThat().statusCode(200);
-        totalPlayList = response.path("total"); //get total playlist
+        totalPlayList = response.path("total");
         System.out.println("Total PlayList:" + totalPlayList);
-        response.prettyPrint(); //get playlist info
+        //response.prettyPrint();
     }
 
     //get List of users PlayList
@@ -111,9 +111,9 @@ public class SpotifyTest {
         //response.prettyPrint();
         playlists = new String[totalPlayList];
         for(int i = 0; i < playlists.length; i++) {
-            playlists[i] = response.path("items[" + i + "].id"); //get playlist id
+            playlists[i] = response.path("items[" + i + "].id");
         }
-        for(String id : playlists) { //print play list
+        for(String id : playlists) {
             System.out.println("PlayList Id" + id);
         }
     }
@@ -143,36 +143,10 @@ public class SpotifyTest {
         int totalTracks = response.path("total");
         trackId = new String[totalTracks];
         for(int i = 0; i < trackId.length; i++) {
-            trackId[i] = response.path("items[" + i + "].track.uri"); //get uri of track
+            trackId[i] = response.path("items[" + i + "].track.uri");
         }
         for(String track : trackId) {
-            System.out.println("Tracks:" + track); //print track uri
+            System.out.println("Tracks:" + track);
         }
-    }
-
-    //delete a track from playlist
-    @Test(priority = 9)
-    public void deleteTrackFromList() {
-        Response response = given()
-                .accept(JSON)
-                .contentType(JSON)
-                .header("Authorization", token)
-                .body("{\"uris\": [\"" + trackId[1] + "\"]}")
-                .when()
-                .delete("https://api.spotify.com/v1/playlists/" + playlists[0] + "/tracks/");
-        System.out.println("SnapShot Id is:" + response.path("snapshot_id"));
-    }
-
-    //add track to play list
-    @Test(priority = 8)
-    public void addTrackToList() {
-        Response response = given()
-                .accept(JSON)
-                .contentType(JSON)
-                .header("Authorization", token)
-                .body("{\"uris\": [\"" + trackId[1] + "\"]}")
-                .when()
-                .post("https://api.spotify.com/v1/playlists/" + playlists[1] + "/tracks/");
-        System.out.println("SnapShot Id is:" + response.path("snapshot_id"));
     }
 }
