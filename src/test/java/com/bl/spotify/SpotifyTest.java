@@ -130,23 +130,4 @@ public class SpotifyTest {
                 .put("https://api.spotify.com/v1/playlists/" + playlists[1] + "");
         response.then().assertThat().statusCode(200);
     }
-
-    //get List of items in playList
-    @Test(priority = 7)
-    public void getAllPlayListItem() {
-        Response response = given()
-                .accept(JSON)
-                .contentType(JSON)
-                .header("Authorization", token)
-                .when().accept(JSON)
-                .get("https://api.spotify.com/v1/playlists/" + playlists[0] + "/tracks");
-        int totalTracks = response.path("total");
-        trackId = new String[totalTracks];
-        for(int i = 0; i < trackId.length; i++) {
-            trackId[i] = response.path("items[" + i + "].track.uri");
-        }
-        for(String track : trackId) {
-            System.out.println("Tracks:" + track);
-        }
-    }
 }
