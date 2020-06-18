@@ -1,8 +1,11 @@
 package com.bl.spotify;
+
 import io.restassured.response.Response;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
 import static io.restassured.RestAssured.given;
+
 public class SpotifyTest {
     /*
     @param uid:ID of user
@@ -105,67 +108,67 @@ public class SpotifyTest {
             playlists[i] = response.path("items[" + i + "].id");
             playlists[i] = response.path("items[" + i + "].id"); //get playlist id
         }
-        for(String id : playlists) {
-            for(String id : playlists) { //print play list
-                System.out.println("PlayList Id" + id);
-            }
-        }
-        //to change Playlist Name
-        @Test(priority = 6)
-        public void changeDetails() {
-            Response response = given()
-                    .accept(JSON)
-                    .contentType(JSON)
-                    .header("Authorization", token)
-                    .body("{\"name\": \"Upadted FromIntellij\",\"description\": \"New playlist description\",\"public\": true}")
-                    .when()
-                    .put("https://api.spotify.com/v1/playlists/" + playlists[1] + "");
-            response.then().assertThat().statusCode(200);
-        }
-        //get List of items in playList
-        @Test(priority = 7)
-        public void getAllPlayListItem() {
-            Response response = given()
-                    .accept(JSON)
-                    .contentType(JSON)
-                    .header("Authorization", token)
-                    .when().accept(JSON)
-                    .get("https://api.spotify.com/v1/playlists/" + playlists[0] + "/tracks");
-            int totalTracks = response.path("total");
-            trackId = new String[totalTracks];
-            for(int i = 0; i < trackId.length; i++) {
-                trackId[i] = response.path("items[" + i + "].track.uri");
-                trackId[i] = response.path("items[" + i + "].track.uri"); //get uri of track
-            }
-            for(String track : trackId) {
-                System.out.println("Tracks:" + track);
-                System.out.println("Tracks:" + track); //print track uri
-            }
-        }
-
-        //delete a track from playlist
-        @Test(priority = 9)
-        public void deleteTrackFromList() {
-            Response response = given()
-                    .accept(JSON)
-                    .contentType(JSON)
-                    .header("Authorization", token)
-                    .body("{\"uris\": [\"" + trackId[1] + "\"]}")
-                    .when()
-                    .delete("https://api.spotify.com/v1/playlists/" + playlists[0] + "/tracks/");
-            System.out.println("SnapShot Id is:" + response.path("snapshot_id"));
-        }
-
-        //add track to play list
-        @Test(priority = 8)
-        public void addTrackToList() {
-            Response response = given()
-                    .accept(JSON)
-                    .contentType(JSON)
-                    .header("Authorization", token)
-                    .body("{\"uris\": [\"" + trackId[1] + "\"]}")
-                    .when()
-                    .post("https://api.spotify.com/v1/playlists/" + playlists[1] + "/tracks/");
-            System.out.println("SnapShot Id is:" + response.path("snapshot_id"));
+        for(String id : playlists) { //print play list
+            System.out.println("PlayList Id" + id);
         }
     }
+
+    //to change Playlist Name
+    @Test(priority = 6)
+    public void changeDetails() {
+        Response response = given()
+                .accept(JSON)
+                .contentType(JSON)
+                .header("Authorization", token)
+                .body("{\"name\": \"Upadted FromIntellij\",\"description\": \"New playlist description\",\"public\": true}")
+                .when()
+                .put("https://api.spotify.com/v1/playlists/" + playlists[1] + "");
+        response.then().assertThat().statusCode(200);
+    }
+    //get List of items in playList
+    @Test(priority = 7)
+    public void getAllPlayListItem() {
+        Response response = given()
+                .accept(JSON)
+                .contentType(JSON)
+                .header("Authorization", token)
+                .when().accept(JSON)
+                .get("https://api.spotify.com/v1/playlists/" + playlists[0] + "/tracks");
+        int totalTracks = response.path("total");
+        trackId = new String[totalTracks];
+        for(int i = 0; i < trackId.length; i++) {
+            trackId[i] = response.path("items[" + i + "].track.uri");
+            trackId[i] = response.path("items[" + i + "].track.uri"); //get uri of track
+        }
+        for(String track : trackId) {
+            System.out.println("Tracks:" + track);
+            System.out.println("Tracks:" + track); //print track uri
+        }
+    }
+
+    //delete a track from playlist
+    @Test(priority = 9)
+    public void deleteTrackFromList() {
+        Response response = given()
+                .accept(JSON)
+                .contentType(JSON)
+                .header("Authorization", token)
+                .body("{\"uris\": [\"" + trackId[1] + "\"]}")
+                .when()
+                .delete("https://api.spotify.com/v1/playlists/" + playlists[0] + "/tracks/");
+        System.out.println("SnapShot Id is:" + response.path("snapshot_id"));
+    }
+
+    //add track to play list
+    @Test(priority = 8)
+    public void addTrackToList() {
+        Response response = given()
+                .accept(JSON)
+                .contentType(JSON)
+                .header("Authorization", token)
+                .body("{\"uris\": [\"" + trackId[1] + "\"]}")
+                .when()
+                .post("https://api.spotify.com/v1/playlists/" + playlists[1] + "/tracks/");
+        System.out.println("SnapShot Id is:" + response.path("snapshot_id"));
+    }
+}
