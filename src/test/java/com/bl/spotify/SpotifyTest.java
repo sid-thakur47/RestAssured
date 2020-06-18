@@ -1,4 +1,4 @@
-package com.bl.restassured;
+package com.bl.spotify;
 
 import io.restassured.response.Response;
 import org.testng.annotations.BeforeMethod;
