@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
 
-public class RestAssuredTest {
+public class SpotifyTest {
 
     /*
     @param uid:ID of user
@@ -16,12 +16,15 @@ public class RestAssuredTest {
 
     public static String token = "";
     String uid = "";
+    String playlist_Id = "";
     String JSON = "application/json";
+    int totalPlayList[];
+    private int[] playlists;
 
     //Before method
     @BeforeMethod
     public void get() {
-        token = "Bearer BQBm1g5bLdQxRRhKbC9jm-LcLlXangi3yYlfS-pufEwbJ7ThzVUOdUnoDZ0sOfLJCX26_tPQRriO_w1mj7BmZn-Jd488PsRJLs8MptFDRoe3HyDAv1diQohgWBeqoDlijTOKTFZfmmHDo7Kwcuv5a8Wc0qjxs-FXrJyJCMrC_oNEQGyFowxjcrbbl9YgadzyE4QQmwlKmE0Lw7XBe0LfudLMUo8s3tlIiwvKVchKDVCqak8LbJnkmwoYp5gbv1lp8do_Hu6jMIRzluBlSM601W8gN9e3zhxx";
+        token = "Bearer BQAwXirLGpxfRhceoYzPwRCXkeoRPUWD1pY5jLsfzpgh5Ubd1AzElEiSqJAONff2QsQUG4KFan5vjAlkjC7XX45VRhoDzTQVbA62GJBbQvaPzcoNpLOg-Ta_k0vUYBg_1oQFvl3VhjtxQ4W2TjoEyVQNRo4fMFWa-zLgVfr30kz43HuWa8s_yN7k1cinMR7_sWma2911z-QAu1XIO64L5lllTsNG33S3jccf9li1TMMpp-9yKS8src3aHtil_umpYpo0vqanCWiLbS3melOwgz38ioSgv33j";
     }
 
     //to get user id
@@ -62,8 +65,7 @@ public class RestAssuredTest {
                 .when()
                 .get("https://api.spotify.com/v1/users/" + uid + "/");
         response.then().assertThat().statusCode(200); //check for status code
-        String profile = response.getBody().asString(); //get user profile in string format
-        System.out.println(profile);
+        response.prettyPrint(); //print current user profile
     }
 
     //to create a new playlist
@@ -77,5 +79,20 @@ public class RestAssuredTest {
                 .when()
                 .post(" https://api.spotify.com/v1/users/" + uid + "/playlists");
         response.then().assertThat().statusCode(201); //check for status code
+    }
+
+    //get user's playlist details
+    @Test(priority = 4)
+    public void getUserPlayListInfo() {
+        Response response = given()
+                .accept(JSON)
+                .contentType(JSON)
+                .header("Authorization", token)
+                .when()
+                .get("https://api.spotify.com/v1/users/" + uid + "/playlists");
+        response.then().assertThat().statusCode(200);
+        playlist_Id = response.path("uri");
+        System.out.println("play;lisyt" + playlist_Id);
+        response.prettyPrint();
     }
 }
