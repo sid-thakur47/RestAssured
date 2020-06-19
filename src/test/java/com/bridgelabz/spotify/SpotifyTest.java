@@ -1,4 +1,4 @@
-package com.bl.spotify;
+package com.bridgelabz.spotify;
 
 import io.restassured.response.Response;
 import org.testng.annotations.BeforeMethod;
@@ -26,7 +26,7 @@ public class SpotifyTest {
     //Before method
     @BeforeMethod
     public void get() {
-        token = "Bearer BQBMDZfJ5Ukupc2_B4j5XscOIUqrmuTH9404qrLL8mk8G_uMIfbhYgQfEhTnhq_j8Onkr0U4ZBuC-e3IP4AGbfFEv3rx1wJa6Dt5Mw37kE_ZawQ6c1c7wGHik3mNKh-PlpyHt8K0Q52EuOa7htlSKVFCODzATQWQ4TQUX0ewIb_UPE926eUKq_d-0rAK8pe0huZ4woWFRNxgOEOnuPVissywdTMtYW3imcqtEjYr8ntYEYFDzdCjcPEVmUZQfaQPXtfPyxbJxQldHh3OMW5si9N8MydeizTA";
+        token = "Bearer BQAdii_RvAKoaWFUrPbUDbYJmIaXR_QOMAr_cm7XEbkWoqBY1f_GLYTMkNqn5Fn6keWPJRTIZ1cjW-NIjwMCXD6ZcnyE7gNwhEvIr3CPm_LmYZCg6B9pd2AmajDQxp0U1Ir648Pb2NazRRs_tS3RVoAq2ofm7O0dMJZe3th38r7f9Rob8BbKl59-AwmBGA_vEBlRRW5-hlO8c7QHeigfM2flTHlvaqnu79XlXeYg9B0ZuWS0tXD-k4qTxl9BkkLr0ox3KD4OopcsATN7TuPDTn-ozkGdihcf";
     }
 
     //to get user id
@@ -87,7 +87,7 @@ public class SpotifyTest {
     }
 
     //get user's playlist details
-    @Test(priority = 4)
+    @Test(priority = 3)
     public void getUserPlayListInfo() {
         Response response = given()
                 .accept(JSON)
@@ -102,7 +102,7 @@ public class SpotifyTest {
     }
 
     //get List of users PlayList
-    @Test(priority = 5)
+    @Test(priority = 4)
     public void getUserPlayList() {
         Response response = given()
                 .accept(JSON)
@@ -121,20 +121,20 @@ public class SpotifyTest {
     }
 
     //to change Playlist Name
-    @Test(priority = 6)
+    @Test(priority = 11)
     public void changeDetails() {
         Response response = given()
                 .accept(JSON)
                 .contentType(JSON)
                 .header("Authorization", token)
-                .body("{\"name\": \"Upadted FromIntellij\",\"description\": \"New playlist description\",\"public\": true}")
+                .body("{\"name\": \"SiddheshThakur\",\"description\": \"New playlist description\",\"public\": true}")
                 .when()
                 .put("https://api.spotify.com/v1/playlists/" + playlists[1] + "");
         response.then().assertThat().statusCode(200);
     }
 
     //get List of items in playList
-    @Test(priority = 7)
+    @Test(priority = 5)
     public void getAllPlayListItem() {
         Response response = given()
                 .accept(JSON)
@@ -153,7 +153,7 @@ public class SpotifyTest {
     }
 
     //delete a track from playlist
-    @Test(priority = 9)
+    @Test(priority = 7)
     public void deleteTrackFromList() {
         Response response = given()
                 .accept(JSON)
@@ -166,7 +166,7 @@ public class SpotifyTest {
     }
 
     //add track to play list
-    @Test(priority = 8)
+    @Test(priority = 6)
     public void addTrackToList() {
         Response response = given()
                 .accept(JSON)
